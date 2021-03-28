@@ -1,24 +1,33 @@
 package nl.sogeti.com;
 
-public class EggMetrics {
+import java.awt.image.BufferedImage;
+
+public class Egg {
     private final int horizontalRadius;
     private final int verticalRadius;
     private int centerXPoint;
     private int centerYPoint;
-    private final String color;
     private final String backgroundColor;
     private int frameHeight;
     private int frameWidth;
 
-    public EggMetrics(final int horizontalRadius, final int verticalRadius, final int centerXPoint, final int centerYPoint, final String color, final String backgroundColor) {
+    public int textOffset = 0;
+    public final TextImage textImage;
+
+    public EggStatus status = EggStatus.TEXT;
+
+    public Egg(final int horizontalRadius, final int verticalRadius, final int centerXPoint,
+               final int centerYPoint, final String backgroundColor,
+               final String textToPrint) {
         this.horizontalRadius = horizontalRadius;
         this.verticalRadius = verticalRadius;
         modifyCenterXPoint(horizontalRadius, centerXPoint);
         modifyCenterYPoint(verticalRadius, centerYPoint);
-        this.color = color;
         this.backgroundColor = backgroundColor;
         calculateFrameHeight(verticalRadius, this.centerYPoint);
         calculateFrameWidth(horizontalRadius, this.centerXPoint);
+
+        this.textImage = new TextImage(textToPrint);
     }
 
     public int getHorizontalRadius() {
@@ -37,10 +46,6 @@ public class EggMetrics {
         return centerYPoint;
     }
 
-    public String getColor() {
-        return color;
-    }
-
     public String getBackgroundColor() {
         return backgroundColor;
     }
@@ -51,6 +56,29 @@ public class EggMetrics {
 
     public int getFrameHeight() {
         return frameHeight;
+    }
+
+    public BufferedImage getTextImage() {
+        return textImage.getImage();
+    }
+
+    public void nextState() {
+        switch (status)
+        {
+            case TEXT:
+                if (textOffset > getTextImage().getWidth()) {
+                    status = EggStatus.HALFCRACKED;
+                }
+                break;
+            case HALFCRACKED:
+                status = EggStatus.FULLCRACKED;
+                break;
+            case FULLCRACKED:
+                status = EggStatus.OPEN;
+                break;
+            default:
+                throw new IllegalArgumentException("EggStatus not implemented yet");
+        }
     }
 
     private void modifyCenterXPoint(final int horizontalRadius, final int centerXPoint) {

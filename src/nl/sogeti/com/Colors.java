@@ -32,7 +32,10 @@ public enum Colors {
     BLUE("\033[0;104m \u001b[0m"),
     PURPLE("\033[0;105m \u001b[0m"),
     CYAN("\033[0;106m \u001b[0m"),
-    WHITE("\033[0;107m \u001b[0m");
+    WHITE("\033[0;107m \u001b[0m"),
+    ORANGE("\033[48;5;208m \u001b[0m"),
+    SOGETI_LIGHTBLUE("\033[48;2;12;190;235m \u001b[0m"),
+    SOGETI_BLUE("\033[48;2;15;122;189m \u001b[0m");
 
     private final String color;
 

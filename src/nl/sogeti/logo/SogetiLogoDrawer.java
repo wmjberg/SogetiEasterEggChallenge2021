@@ -32,7 +32,10 @@ public class SogetiLogoDrawer {
     private void printSpadeIcon() {
         for (int column = 0; column < SPADE_ICON_WIDTH; column++) {
             SpadeIconDrawer.drawLogo(column);
-            System.out.println();
+
+            if (column < (SPADE_ICON_WIDTH - 1)) { //smoothens animation, newline gets prepended before egg
+                System.out.println();
+            }
         }
     }
 
